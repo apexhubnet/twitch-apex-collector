@@ -1,0 +1,29 @@
+services:
+  twitch_collector:
+    container_name: twitch_collector
+    hostname: twitch_collector
+    image: apexhub/twitch_collector:1.3
+    build: .
+    environment:
+      - CLIENT_ID=${CLIENT_ID}
+      - CLIENT_SECRET=${CLIENT_SECRET}
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - TZ=Europe/Moscow
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - apexhub_net
+    restart: unless-stopped
+    # Добавляем возможность подключения к контейнеру
+    stdin_open: true
+    tty: true
+
+networks:
+  apexhub_net:
+    external: true
+    driver: bridge
